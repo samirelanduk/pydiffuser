@@ -9,7 +9,5 @@ dist
 notes
 profiles
 *.png
-*.json
-!.vscode/settings.json
 *.svg
 *.eps

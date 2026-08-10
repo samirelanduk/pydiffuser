@@ -1,7 +1,9 @@
 import os
+from pathlib import Path
 from unittest import TestCase
-from unittest.mock import patch, mock_open, call, Mock
+from unittest.mock import patch, Mock
 from transformers import CLIPTokenizer
+import pydiffuser.clip
 from pydiffuser.clip import (
     tokenize,
     _text_to_tokens,
@@ -54,7 +56,9 @@ class TokenizeTests(TestCase):
             [("is", 595), ("coming", 14916)],
         ]
         tokenize("A photo of a cat.")
-        mock_from_pretrained.assert_called_once_with("data/clip_tokenizer")
+        mock_from_pretrained.assert_called_once_with(
+            Path(pydiffuser.clip.__file__).parent / "data" / "clip_tokenizer"
+        )
         mock_to_tokens.assert_called_once_with(
             "A photo of a cat.", mock_from_pretrained.return_value
         )

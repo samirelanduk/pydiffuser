@@ -1,8 +1,4 @@
-import json
-import csv
-import re
-import torch
-import safetensors
+from pathlib import Path
 from transformers import CLIPTokenizer
 
 MAX_LENGTH = 77
@@ -13,7 +9,7 @@ def tokenize(
     clip_tokenizer: CLIPTokenizer = None,
 ) -> tuple[list[list[int]], list[list[tuple[str, int]]]]:
     if not clip_tokenizer:
-        tokenizer_path = "data/clip_tokenizer"
+        tokenizer_path = Path(__file__).parent / "data" / "clip_tokenizer"
         clip_tokenizer = CLIPTokenizer.from_pretrained(tokenizer_path)
     tokens = _text_to_tokens(text, clip_tokenizer)
     tokens = _break_up_tokens(tokens, clip_tokenizer)

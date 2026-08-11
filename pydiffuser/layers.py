@@ -32,3 +32,25 @@ def group_norm(
     layer.weight = torch.nn.Parameter(weight, requires_grad=False)
     layer.bias = torch.nn.Parameter(bias, requires_grad=False)
     return layer(input)
+
+
+def convolution(
+    weight: torch.Tensor, bias: torch.Tensor, input: torch.Tensor
+) -> torch.Tensor:
+    """Applies a 2D convolution to the incoming data, which should be a 4D
+    tensor of shape [batch, channels, height, width]. The weight must be a 4D
+    tensor of shape [output_channels, input_channels, kernel_height,
+    kernel_width]. The bias must be a 1D tensor of shape [output_channels]. The
+    result is a 4D tensor of shape [batch, output_channels, height, width].
+
+    The kernel is run over every position in the height/width matrix, and
+    outputs a single value for that position using the weights and biases."""
+
+    layer = torch.nn.Conv2d(
+        in_channels=weight.shape[1],
+        out_channels=weight.shape[0],
+        kernel_size=weight.shape[2:],
+    )
+    layer.weight = torch.nn.Parameter(weight, requires_grad=False)
+    layer.bias = torch.nn.Parameter(bias, requires_grad=False)
+    return layer(input)

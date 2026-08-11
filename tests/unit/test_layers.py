@@ -64,8 +64,8 @@ class GroupNormLayerTests(TestCase):
 
 class ConvolutionLayerTests(TestCase):
 
-    def test_convolution_layer(self):
-        input = torch.tensor(
+    def setUp(self):
+        self.input = torch.tensor(
             [
                 [
                     [
@@ -119,7 +119,7 @@ class ConvolutionLayerTests(TestCase):
         zeros = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
         centre = [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 0.0]]
         diagonal = [[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, 1.0]]
-        weights = torch.tensor(
+        self.weights = torch.tensor(
             [
                 [ones, ones, ones],  # sum of the whole window
                 [centre, centre, centre],  # sum of the three centre pixels
@@ -127,8 +127,10 @@ class ConvolutionLayerTests(TestCase):
                 [diagonal, diagonal, diagonal],  # corners minus the centre
             ]
         )
-        bias = torch.tensor([0.0, 1.0, 10.0, 100.0])
-        output = convolution(weights, bias, input)
+        self.bias = torch.tensor([0.0, 1.0, 10.0, 100.0])
+
+    def test_convolution_layer(self):
+        output = convolution(self.weights, self.bias, self.input)
         self.assertTrue(
             torch.allclose(
                 output,
@@ -145,6 +147,102 @@ class ConvolutionLayerTests(TestCase):
                             [[259.0, 262.0], [271.0, 274.0], [283.0, 286.0]],
                             [[604.0, 613.0], [640.0, 649.0], [676.0, 685.0]],
                             [[358.0, 361.0], [370.0, 373.0], [382.0, 385.0]],
+                        ],
+                    ]
+                ),
+            )
+        )
+
+    def test_convolution_layer_with_padding(self):
+        output = convolution(self.weights, self.bias, self.input, padding=1)
+        self.assertTrue(
+            torch.allclose(
+                output,
+                torch.tensor(
+                    [
+                        [
+                            [
+                                [282.0, 432.0, 450.0, 306.0],
+                                [459.0, 702.0, 729.0, 495.0],
+                                [531.0, 810.0, 837.0, 567.0],
+                                [603.0, 918.0, 945.0, 639.0],
+                                [426.0, 648.0, 666.0, 450.0],
+                            ],
+                            [
+                                [64.0, 67.0, 70.0, 73.0],
+                                [76.0, 79.0, 82.0, 85.0],
+                                [88.0, 91.0, 94.0, 97.0],
+                                [100.0, 103.0, 106.0, 109.0],
+                                [112.0, 115.0, 118.0, 121.0],
+                            ],
+                            [
+                                [24.0, 34.0, 40.0, 32.0],
+                                [43.0, 64.0, 73.0, 55.0],
+                                [67.0, 100.0, 109.0, 79.0],
+                                [91.0, 136.0, 145.0, 103.0],
+                                [72.0, 106.0, 112.0, 80.0],
+                            ],
+                            [
+                                [115.0, 115.0, 115.0, 28.0],
+                                [115.0, 178.0, 181.0, 85.0],
+                                [115.0, 190.0, 193.0, 85.0],
+                                [115.0, 202.0, 205.0, 85.0],
+                                [-11.0, 85.0, 85.0, 85.0],
+                            ],
+                        ],
+                        [
+                            [
+                                [1002.0, 1512.0, 1530.0, 1026.0],
+                                [1539.0, 2322.0, 2349.0, 1575.0],
+                                [1611.0, 2430.0, 2457.0, 1647.0],
+                                [1683.0, 2538.0, 2565.0, 1719.0],
+                                [1146.0, 1728.0, 1746.0, 1170.0],
+                            ],
+                            [
+                                [244.0, 247.0, 250.0, 253.0],
+                                [256.0, 259.0, 262.0, 265.0],
+                                [268.0, 271.0, 274.0, 277.0],
+                                [280.0, 283.0, 286.0, 289.0],
+                                [292.0, 295.0, 298.0, 301.0],
+                            ],
+                            [
+                                [264.0, 394.0, 400.0, 272.0],
+                                [403.0, 604.0, 613.0, 415.0],
+                                [427.0, 640.0, 649.0, 439.0],
+                                [451.0, 676.0, 685.0, 463.0],
+                                [312.0, 466.0, 472.0, 320.0],
+                            ],
+                            [
+                                [115.0, 115.0, 115.0, -152.0],
+                                [115.0, 358.0, 361.0, 85.0],
+                                [115.0, 370.0, 373.0, 85.0],
+                                [115.0, 382.0, 385.0, 85.0],
+                                [-191.0, 85.0, 85.0, 85.0],
+                            ],
+                        ],
+                    ]
+                ),
+            )
+        )
+
+    def test_convolution_layer_with_stride(self):
+        output = convolution(self.weights, self.bias, self.input, stride=2)
+        self.assertTrue(
+            torch.allclose(
+                output,
+                torch.tensor(
+                    [
+                        [
+                            [[702.0], [918.0]],
+                            [[79.0], [103.0]],
+                            [[64.0], [136.0]],
+                            [[178.0], [202.0]],
+                        ],
+                        [
+                            [[2322.0], [2538.0]],
+                            [[259.0], [283.0]],
+                            [[604.0], [676.0]],
+                            [[358.0], [382.0]],
                         ],
                     ]
                 ),

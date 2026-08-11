@@ -35,21 +35,31 @@ def group_norm(
 
 
 def convolution(
-    weight: torch.Tensor, bias: torch.Tensor, input: torch.Tensor
+    weight: torch.Tensor,
+    bias: torch.Tensor,
+    input: torch.Tensor,
+    padding: int = 0,
+    stride: int = 1,
 ) -> torch.Tensor:
     """Applies a 2D convolution to the incoming data, which should be a 4D
     tensor of shape [batch, channels, height, width]. The weight must be a 4D
     tensor of shape [output_channels, input_channels, kernel_height,
     kernel_width]. The bias must be a 1D tensor of shape [output_channels]. The
-    result is a 4D tensor of shape [batch, output_channels, height, width].
+    result is a 4D tensor of shape [batch, output_channels, new_height, new_width].
 
     The kernel is run over every position in the height/width matrix, and
-    outputs a single value for that position using the weights and biases."""
+    outputs a single value for that position using the weights and biases.
+
+    Padding adds a border of zeros of the given width to every edge of the
+    input before the kernel is run. Stride is the number of positions the kernel
+    moves between windows, so a stride of 2 halves the output dimensions."""
 
     layer = torch.nn.Conv2d(
         in_channels=weight.shape[1],
         out_channels=weight.shape[0],
         kernel_size=weight.shape[2:],
+        padding=padding,
+        stride=stride,
     )
     layer.weight = torch.nn.Parameter(weight, requires_grad=False)
     layer.bias = torch.nn.Parameter(bias, requires_grad=False)

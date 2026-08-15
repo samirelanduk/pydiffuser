@@ -3,14 +3,15 @@ from transformers import CLIPTokenizer
 
 MAX_LENGTH = 77
 
+TOKENIZER_DIR = Path(__file__).parent / "data" / "clip_tokenizer"
+
 
 def tokenize(
     text: str,
     clip_tokenizer: CLIPTokenizer = None,
 ) -> tuple[list[list[int]], list[list[tuple[str, int]]]]:
     if not clip_tokenizer:
-        tokenizer_path = Path(__file__).parent / "data" / "clip_tokenizer"
-        clip_tokenizer = CLIPTokenizer.from_pretrained(tokenizer_path)
+        clip_tokenizer = CLIPTokenizer.from_pretrained(TOKENIZER_DIR)
     tokens = _text_to_tokens(text, clip_tokenizer)
     tokens = _break_up_tokens(tokens, clip_tokenizer)
     mappings = _create_token_string_mapping(tokens, clip_tokenizer)

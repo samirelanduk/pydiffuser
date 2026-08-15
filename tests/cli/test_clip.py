@@ -5,9 +5,7 @@ import shutil
 import sys
 import os
 import json
-
-
-ROOT = Path(__file__).resolve().parent.parent.parent
+from pydiffuser.clip import TOKENIZER_DIR
 
 
 PROMPT = """
@@ -36,7 +34,6 @@ class TokenizeTestCase(TestCase):
         # Run the command with only the required arguments
         result = subprocess.run(
             [sys.executable, "-m", "pydiffuser.cli", "tokenize", PROMPT],
-            env={**os.environ, "PYTHONPATH": str(ROOT)},
             capture_output=True,
             text=True,
         )
@@ -73,7 +70,6 @@ class TokenizeTestCase(TestCase):
                 "--tokens",
                 str(tokens_path),
             ],
-            env={**os.environ, "PYTHONPATH": str(ROOT)},
             capture_output=True,
             text=True,
         )
@@ -111,7 +107,6 @@ class TokenizeTestCase(TestCase):
                 "--mappings",
                 str(mappings_path),
             ],
-            env={**os.environ, "PYTHONPATH": str(ROOT)},
             capture_output=True,
             text=True,
         )
@@ -138,9 +133,8 @@ class TokenizeTestCase(TestCase):
 
     def test_can_set_tokenizer_path(self):
         # Copy the library tokenizer to a custom path
-        library_tokenizer = ROOT / "pydiffuser" / "data" / "clip_tokenizer"
         custom_tokenizer = self.test_dir / "tokenizer"
-        shutil.copytree(library_tokenizer, custom_tokenizer)
+        shutil.copytree(TOKENIZER_DIR, custom_tokenizer)
 
         # Give ancient</w> a different id (swap with parade</w>)
         with open(custom_tokenizer / "tokenizer.json") as f:
@@ -164,7 +158,6 @@ class TokenizeTestCase(TestCase):
                 "--tokenizer",
                 str(custom_tokenizer),
             ],
-            env={**os.environ, "PYTHONPATH": str(ROOT)},
             capture_output=True,
             text=True,
         )
@@ -195,7 +188,6 @@ class TokenizeTestCase(TestCase):
     def test_prompt_is_required(self):
         result = subprocess.run(
             [sys.executable, "-m", "pydiffuser.cli", "tokenize"],
-            env={**os.environ, "PYTHONPATH": str(ROOT)},
             capture_output=True,
             text=True,
         )

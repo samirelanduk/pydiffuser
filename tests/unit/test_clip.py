@@ -1,11 +1,9 @@
-import os
-from pathlib import Path
 from unittest import TestCase
 from unittest.mock import patch, Mock
 from transformers import CLIPTokenizer
-import pydiffuser.clip
 from pydiffuser.clip import (
     tokenize,
+    TOKENIZER_DIR,
     _text_to_tokens,
     _break_up_tokens,
     _create_token_string_mapping,
@@ -56,9 +54,7 @@ class TokenizeTests(TestCase):
             [("is", 595), ("coming", 14916)],
         ]
         tokenize("A photo of a cat.")
-        mock_from_pretrained.assert_called_once_with(
-            Path(pydiffuser.clip.__file__).parent / "data" / "clip_tokenizer"
-        )
+        mock_from_pretrained.assert_called_once_with(TOKENIZER_DIR)
         mock_to_tokens.assert_called_once_with(
             "A photo of a cat.", mock_from_pretrained.return_value
         )
@@ -74,9 +70,7 @@ class TextToTokensTests(TestCase):
 
     def test_text_to_tokens(self):
         prompt = "A photo of a cat."
-        tokenizer = CLIPTokenizer.from_pretrained(
-            os.path.join(os.getcwd(), "pydiffuser", "data", "clip_tokenizer")
-        )
+        tokenizer = CLIPTokenizer.from_pretrained(TOKENIZER_DIR)
         tokens = _text_to_tokens(prompt, tokenizer)
         self.assertEqual(tokens, [320, 1125, 539, 320, 2368, 269])
 
@@ -85,9 +79,7 @@ class BreakUpTokensTests(TestCase):
 
     def test_short_list(self):
         tokens = [1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15]
-        tokenizer = CLIPTokenizer.from_pretrained(
-            os.path.join(os.getcwd(), "pydiffuser", "data", "clip_tokenizer")
-        )
+        tokenizer = CLIPTokenizer.from_pretrained(TOKENIZER_DIR)
         result = _break_up_tokens(tokens, tokenizer, max_length=20)
         self.assertEqual(
             result,
@@ -119,9 +111,7 @@ class BreakUpTokensTests(TestCase):
 
     def test_list_of_length_max_length(self):
         tokens = [1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15]
-        tokenizer = CLIPTokenizer.from_pretrained(
-            os.path.join(os.getcwd(), "pydiffuser", "data", "clip_tokenizer")
-        )
+        tokenizer = CLIPTokenizer.from_pretrained(TOKENIZER_DIR)
         result = _break_up_tokens(tokens, tokenizer, max_length=13)
         self.assertEqual(
             result, [[49406, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 49407]]
@@ -129,9 +119,7 @@ class BreakUpTokensTests(TestCase):
 
     def test_list_longer_than_max_length(self):
         tokens = [1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15]
-        tokenizer = CLIPTokenizer.from_pretrained(
-            os.path.join(os.getcwd(), "pydiffuser", "data", "clip_tokenizer")
-        )
+        tokenizer = CLIPTokenizer.from_pretrained(TOKENIZER_DIR)
         result = _break_up_tokens(tokens, tokenizer, max_length=8)
         self.assertEqual(
             result,
@@ -146,17 +134,13 @@ class CreateTokenStringMappingTests(TestCase):
 
     def test_map_tokens_to_strings_single_list(self):
         tokens = [[599, 1915, 1980]]
-        tokenizer = CLIPTokenizer.from_pretrained(
-            os.path.join(os.getcwd(), "pydiffuser", "data", "clip_tokenizer")
-        )
+        tokenizer = CLIPTokenizer.from_pretrained(TOKENIZER_DIR)
         result = _create_token_string_mapping(tokens, tokenizer)
         self.assertEqual(result, [[("the", 599), ("big", 1915), ("one", 1980)]])
 
     def test_map_tokens_to_strings_multiple_lists(self):
         tokens = [[599, 1915, 1980], [595, 14916]]
-        tokenizer = CLIPTokenizer.from_pretrained(
-            os.path.join(os.getcwd(), "pydiffuser", "data", "clip_tokenizer")
-        )
+        tokenizer = CLIPTokenizer.from_pretrained(TOKENIZER_DIR)
         result = _create_token_string_mapping(tokens, tokenizer)
         self.assertEqual(
             result,

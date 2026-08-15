@@ -45,13 +45,13 @@ Issues = "https://github.com/samirelanduk/pydiffuser/issues"
 dev = ["black==25.1.0", "pre-commit==4.1.0"]
 
 [tool.hatch.version]
-path = "pydiffuser/__init__.py"
+path = "src/pydiffuser/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["pydiffuser"]
+packages = ["src/pydiffuser"]
 
 [tool.hatch.build.targets.sdist]
-include = ["pydiffuser", "tests", "README.md", "LICENSE"]
+include = ["src", "tests", "README.md", "LICENSE"]
 
 [tool.black]
 line-length = 88

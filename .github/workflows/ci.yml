@@ -69,5 +69,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-dev.txt
 
+      # src layout means the package is not importable from the repo root -
+      # the tests import the installed copy, so it has to be installed.
+      - name: Install pydiffuser
+        run: pip install -e . --no-deps
+
       - name: Run tests
         run: python -m unittest discover --start-directory tests --top-level-directory . --verbose

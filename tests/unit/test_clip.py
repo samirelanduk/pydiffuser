@@ -1,12 +1,14 @@
 from unittest import TestCase
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
+
 from transformers import CLIPTokenizer
+
 from pydiffuser.clip import (
-    tokenize,
     TOKENIZER_DIR,
-    _text_to_tokens,
     _break_up_tokens,
     _create_token_string_mapping,
+    _text_to_tokens,
+    tokenize,
 )
 
 

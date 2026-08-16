@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from transformers import CLIPTokenizer
 
 MAX_LENGTH = 77

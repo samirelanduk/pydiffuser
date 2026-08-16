@@ -1,12 +1,12 @@
-from unittest import TestCase
-from pathlib import Path
-import subprocess
-import shutil
-import sys
-import os
 import json
-from pydiffuser.clip import TOKENIZER_DIR
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+from unittest import TestCase
 
+from pydiffuser.clip import TOKENIZER_DIR
 
 PROMPT = """
 ancient weathered stone lighthouse on a jagged basalt cliff edge, late dusk, the last embers of golden hour breaking through fractured storm clouds, volumetric god rays streaming down onto a churning slate-grey sea.
@@ -35,6 +35,7 @@ class TokenizeTestCase(TestCase):
             [sys.executable, "-m", "pydiffuser.cli", "tokenize", PROMPT],
             capture_output=True,
             text=True,
+            check=False,
         )
 
         # Process ran successfully
@@ -71,6 +72,7 @@ class TokenizeTestCase(TestCase):
             ],
             capture_output=True,
             text=True,
+            check=False,
         )
 
         # Process ran successfully
@@ -108,6 +110,7 @@ class TokenizeTestCase(TestCase):
             ],
             capture_output=True,
             text=True,
+            check=False,
         )
 
         # Process ran successfully
@@ -159,6 +162,7 @@ class TokenizeTestCase(TestCase):
             ],
             capture_output=True,
             text=True,
+            check=False,
         )
 
         # Process ran successfully
@@ -189,6 +193,7 @@ class TokenizeTestCase(TestCase):
             [sys.executable, "-m", "pydiffuser.cli", "tokenize"],
             capture_output=True,
             text=True,
+            check=False,
         )
         self.assertEqual(result.returncode, 2)
         self.assertFalse(result.stdout.strip())

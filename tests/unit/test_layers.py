@@ -1,7 +1,8 @@
-import torch
 from unittest import TestCase
-from unittest.mock import patch
-from pydiffuser.layers import linear, group_norm, convolution
+
+import torch
+
+from pydiffuser.layers import convolution, group_norm, linear
 
 
 class LinearLayerTests(TestCase):

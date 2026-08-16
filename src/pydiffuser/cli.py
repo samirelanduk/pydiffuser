@@ -1,6 +1,8 @@
 import json
+
 import click
 from transformers import CLIPTokenizer
+
 from pydiffuser.clip import tokenize as clip_tokenize
 
 

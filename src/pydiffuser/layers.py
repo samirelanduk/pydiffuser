@@ -15,7 +15,10 @@ def linear(
 
 
 def group_norm(
-    weight: torch.Tensor, bias: torch.Tensor, input: torch.Tensor, groups: int = None
+    weight: torch.Tensor,
+    bias: torch.Tensor,
+    input: torch.Tensor,
+    groups: int | None = None,
 ) -> torch.Tensor:
     """Applies a group normalization to the incoming data. Each vector in the
     final layer is broken up into groups (by default the entire vector is a

@@ -4,6 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pydiffuser"
+version = "0.1.0"
 description = "A python library for generating media with diffusion."
 readme = "README.md"
 license = "MIT"
@@ -23,7 +24,6 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Multimedia :: Graphics",
 ]
-dynamic = ["version"]
 dependencies = [
     "click>=8.4",
     "safetensors>=0.8",
@@ -49,9 +49,6 @@ explicit = true
 
 [tool.uv.sources]
 torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
-
-[tool.hatch.version]
-path = "src/pydiffuser/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pydiffuser"]

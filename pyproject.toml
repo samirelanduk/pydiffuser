@@ -9,7 +9,7 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Sam Ireland", email = "mail@samireland.com" }]
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 keywords = ["diffusion", "clip", "torch", "image-generation"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -17,7 +17,9 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Multimedia :: Graphics",
 ]
@@ -59,4 +61,4 @@ include = ["src", "tests", "README.md", "LICENSE"]
 
 [tool.black]
 line-length = 88
-target-version = ["py313"]
+target-version = ["py312"]

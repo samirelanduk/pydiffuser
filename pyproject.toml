@@ -40,7 +40,7 @@ Source = "https://github.com/samirelanduk/pydiffuser"
 Issues = "https://github.com/samirelanduk/pydiffuser/issues"
 
 [dependency-groups]
-dev = ["black==25.1.0", "pre-commit==4.1.0"]
+dev = ["ruff==0.16.3", "pre-commit==4.1.0"]
 
 [[tool.uv.index]]
 name = "pytorch-cpu"
@@ -56,6 +56,6 @@ packages = ["src/pydiffuser"]
 [tool.hatch.build.targets.sdist]
 include = ["src", "tests", "README.md", "LICENSE"]
 
-[tool.black]
+[tool.ruff]
 line-length = 88
-target-version = ["py312"]
+target-version = "py312"

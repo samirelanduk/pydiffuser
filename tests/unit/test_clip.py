@@ -11,7 +11,6 @@ from pydiffuser.clip import (
 
 
 class TokenizeTests(TestCase):
-
     @patch("pydiffuser.clip._text_to_tokens")
     @patch("pydiffuser.clip._break_up_tokens")
     @patch("pydiffuser.clip._create_token_string_mapping")
@@ -67,7 +66,6 @@ class TokenizeTests(TestCase):
 
 
 class TextToTokensTests(TestCase):
-
     def test_text_to_tokens(self):
         prompt = "A photo of a cat."
         tokenizer = CLIPTokenizer.from_pretrained(TOKENIZER_DIR)
@@ -76,7 +74,6 @@ class TextToTokensTests(TestCase):
 
 
 class BreakUpTokensTests(TestCase):
-
     def test_short_list(self):
         tokens = [1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15]
         tokenizer = CLIPTokenizer.from_pretrained(TOKENIZER_DIR)
@@ -131,7 +128,6 @@ class BreakUpTokensTests(TestCase):
 
 
 class CreateTokenStringMappingTests(TestCase):
-
     def test_map_tokens_to_strings_single_list(self):
         tokens = [[599, 1915, 1980]]
         tokenizer = CLIPTokenizer.from_pretrained(TOKENIZER_DIR)

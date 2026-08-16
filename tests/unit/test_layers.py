@@ -5,7 +5,6 @@ from pydiffuser.layers import linear, group_norm, convolution
 
 
 class LinearLayerTests(TestCase):
-
     def test_linear_layer_vector_input(self):
         input = torch.tensor([10, 20, 30, 40])
         weights = torch.tensor([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
@@ -22,7 +21,6 @@ class LinearLayerTests(TestCase):
 
 
 class GroupNormLayerTests(TestCase):
-
     def test_group_norm_layer(self):
         input = torch.tensor(
             [[1.0, 2.0, 3.0, 4.0, 5.0, 6.0], [2.0, 4.0, 8.0, 16.0, 32.0, 64.0]]
@@ -63,7 +61,6 @@ class GroupNormLayerTests(TestCase):
 
 
 class ConvolutionLayerTests(TestCase):
-
     def setUp(self):
         self.input = torch.tensor(
             [

@@ -1,6 +1,6 @@
 repos:
-  - repo: https://github.com/psf/black
-    rev: 25.1.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.3
     hooks:
-      - id: black
-        args: ["--check", "--config", "pyproject.toml"]
+      - id: ruff-format
+        args: ["--check"]

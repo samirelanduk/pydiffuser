@@ -20,7 +20,6 @@ cinematic composition, epic landscape photography, wide angle lens, deep depth o
 
 
 class TokenizeTestCase(TestCase):
-
     def setUp(self):
         self.test_dir = Path("test_dir").resolve()
         self.test_dir.mkdir(parents=True, exist_ok=True)

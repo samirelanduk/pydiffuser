@@ -39,7 +39,27 @@ jobs:
       - name: Run pre-commit hooks
         run: uv run --only-group dev pre-commit run --all-files --show-diff-on-failure
 
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+
+      - name: Build wheel and sdist
+        run: uv build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
   test:
+    needs: build
     strategy:
       fail-fast: false
       matrix:
@@ -54,8 +74,16 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           enable-cache: true
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
       - name: Install dependencies
-        run: uv sync --locked
+        run: uv sync --locked --no-install-project
+
+      - name: Install the built wheel
+        run: uv pip install --no-deps dist/*.whl
 
       - name: Run tests
-        run: uv run python -m unittest discover --start-directory tests --top-level-directory . --verbose
+        run: .venv/bin/python -m unittest discover --start-directory tests --top-level-directory . --verbose

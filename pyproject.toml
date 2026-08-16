@@ -22,10 +22,6 @@ classifiers = [
     "Topic :: Multimedia :: Graphics",
 ]
 dynamic = ["version"]
-
-# Lower bounds only - this is a library, so pinning here would make it
-# uninstallable alongside anything else. Exact versions used in CI live in
-# requirements.txt.
 dependencies = [
     "click>=8.4",
     "safetensors>=0.8",
@@ -43,6 +39,14 @@ Issues = "https://github.com/samirelanduk/pydiffuser/issues"
 
 [dependency-groups]
 dev = ["black==25.1.0", "pre-commit==4.1.0"]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
 
 [tool.hatch.version]
 path = "src/pydiffuser/__init__.py"

@@ -8,3 +8,27 @@
 [![Checked with pyright](https://img.shields.io/badge/pyright-checked-2a6db2)](https://github.com/microsoft/pyright)
 
 A python library for generating media with diffusion.
+
+## Development
+
+The project uses [uv](https://docs.astral.sh/uv/). With it installed:
+
+```bash
+git clone git@github.com:samirelanduk/pydiffuser.git
+cd pydiffuser
+uv sync
+pre-commit install
+```
+
+`uv sync` creates the virtualenv in `.venv` and installs the project with its dev
+dependencies from the lockfile. `pre-commit install` sets up the ruff check and
+format hooks, which CI also enforces.
+
+Then, to run the checks:
+
+```bash
+uv run python -m unittest discove
+uv run pyright
+uv run pre-commit run --all-files
+```
+

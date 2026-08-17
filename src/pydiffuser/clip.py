@@ -46,7 +46,7 @@ def _break_up_tokens(
     token_lists = [
         tokens[i : i + max_length - 2] for i in range(0, len(tokens), max_length - 2)
     ]
-    token_lists = [[bos] + t + [eos] for t in tokens]
+    token_lists = [[bos] + t + [eos] for t in token_lists]
     if len(token_lists[-1]) < max_length:
         token_lists[-1].pop(-1)
         token_lists[-1] += [pad] * (max_length - len(token_lists[-1]))

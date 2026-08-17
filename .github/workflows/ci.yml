@@ -39,6 +39,9 @@ jobs:
       - name: Run pre-commit hooks
         run: uv run --only-group dev pre-commit run --all-files --show-diff-on-failure
 
+      - name: Type check
+        run: uv run pyright
+
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 10

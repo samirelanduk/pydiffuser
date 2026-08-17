@@ -40,7 +40,7 @@ Source = "https://github.com/samirelanduk/pydiffuser"
 Issues = "https://github.com/samirelanduk/pydiffuser/issues"
 
 [dependency-groups]
-dev = ["ruff==0.16.3", "pre-commit==4.1.0"]
+dev = ["ruff==0.16.3", "pyright==1.1.411", "pre-commit==4.1.0"]
 
 [[tool.uv.index]]
 name = "pytorch-cpu"
@@ -59,3 +59,14 @@ include = ["src", "tests", "README.md", "LICENSE"]
 [tool.ruff]
 line-length = 88
 target-version = "py312"
+
+[tool.pyright]
+include = ["src", "tests"]
+pythonVersion = "3.12"
+venvPath = "."
+venv = ".venv"
+typeCheckingMode = "basic"
+reportAssignmentType = "none"
+reportOperatorIssue = "none"
+reportAttributeAccessIssue = "none"
+reportReturnType = "none"

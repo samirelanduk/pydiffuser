@@ -60,7 +60,7 @@ def convolution(
     layer = torch.nn.Conv2d(
         in_channels=weight.shape[1],
         out_channels=weight.shape[0],
-        kernel_size=weight.shape[2:],
+        kernel_size=(weight.shape[2], weight.shape[3]),
         padding=padding,
         stride=stride,
     )

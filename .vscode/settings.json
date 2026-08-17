@@ -1,4 +1,6 @@
 {
+    "ruff.enable": true,
+    "cursorpyright.analysis.diagnosticMode": "workspace",
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true,

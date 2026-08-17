@@ -9,13 +9,13 @@ TOKENIZER_DIR = Path(__file__).parent / "data" / "clip_tokenizer"
 
 def tokenize(
     text: str,
-    clip_tokenizer: CLIPTokenizer = None,
+    clip_tokenizer: CLIPTokenizer | None = None,
 ) -> tuple[list[list[int]], list[list[tuple[str, int]]]]:
-    if not clip_tokenizer:
-        clip_tokenizer = CLIPTokenizer.from_pretrained(TOKENIZER_DIR)
-    tokens = _text_to_tokens(text, clip_tokenizer)
-    tokens = _break_up_tokens(tokens, clip_tokenizer)
-    mappings = _create_token_string_mapping(tokens, clip_tokenizer)
+
+    tokenizer = clip_tokenizer or CLIPTokenizer.from_pretrained(TOKENIZER_DIR)
+    tokens = _text_to_tokens(text, tokenizer)
+    tokens = _break_up_tokens(tokens, tokenizer)
+    mappings = _create_token_string_mapping(tokens, tokenizer)
     return tokens, mappings
 
 
@@ -43,18 +43,18 @@ def _break_up_tokens(
     bos = clip_tokenizer.bos_token_id
     eos = clip_tokenizer.eos_token_id
     pad = clip_tokenizer.pad_token_id
-    tokens = [
+    token_lists = [
         tokens[i : i + max_length - 2] for i in range(0, len(tokens), max_length - 2)
     ]
-    tokens = [[bos] + t + [eos] for t in tokens]
-    if len(tokens[-1]) < max_length:
-        tokens[-1].pop(-1)
-        tokens[-1] += [pad] * (max_length - len(tokens[-1]))
-    return tokens
+    token_lists = [[bos] + t + [eos] for t in tokens]
+    if len(token_lists[-1]) < max_length:
+        token_lists[-1].pop(-1)
+        token_lists[-1] += [pad] * (max_length - len(token_lists[-1]))
+    return token_lists
 
 
 def _create_token_string_mapping(
-    tokens: list[int], clip_tokenizer: CLIPTokenizer
+    tokens: list[list[int]], clip_tokenizer: CLIPTokenizer
 ) -> list[list[tuple[str, int]]]:
     """Creates a mapping of token values to token integers."""
 

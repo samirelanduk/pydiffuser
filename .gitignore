@@ -12,3 +12,4 @@ profiles
 *.png
 *.svg
 *.eps
+.ruff_cache
